@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Евиденција на спортски настани</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f1f1;
+        }
+
+        .leftcolumn {
+            border-right: rgba(52, 58, 64, 0.26) solid 1px;
+        }
+
+        .rightcolumn {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            justify-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 16px;
+        }
+
+        .row:after {
+            content: "";
+            display: table-column;
+            clear: both;
+        }
+
+        .footer {
+            padding: 20px 30px 30px;
+            text-align: center;
+            background: #ddd;
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 800px) {
+            .leftcolumn, .rightcolumn {
+                width: 100%;
+                padding: 0;
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        #create {
+            font-size: 12px;
+            /*animation: gradient 15s ease infinite;*/
+            background: #23a6d5;
+            border-radius: 16px;
+            color: aliceblue;
+        }
+
+        #create:hover {
+            scale: 1.1;
+        }
+
+        .myBtn:hover {
+            /*animation: gradient 15s ease infinite;*/
+            /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
+            background: #23a6d5;
+        }
+
+
+        h1 {
+            /*color: aliceblue;*/
+            background: #17A2B8; /*linear-gradient(90deg, #23a6d5, #159ed5);*/ /*#e36541, #ee7752,*/
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Good Times Regular', fantasy;
+            font-size: 50px;
+            /*text-shadow: 8px 8px 10px rgba(0, 0, 0, 0.52);*/
+        }
+
+        .navbar-brand {
+            transform: translateX(-50%);
+            left: 50%;
+            position: absolute;
+        }
+
+        .row {
+            width: 100%;
+            padding-left: 30px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        #exampleModal {
+            padding: 20px
+        }
+
+        #navv, #exampleModal {
+            /*background: url('/assets/back.jpg');*/
+            /*background-size: cover;*/
+            /*text-shadow: 8px 8px 10px #0000008c;*/
+            background-color: #343a40;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%239C92AC' fill-opacity='0.2' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), linear-gradient(to right top, #343a40, #2b2c31, #211f22, #151314, #000000);
+            padding: 10px;
+        }
+
+        #cardName {
+            color: #17A2B8;
+            text-decoration: none;
+        }
+
+        #cardName:hover {
+            color: #d38d17;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default" id="navv">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/api/sportEvent/getList}" style="margin-top: 0">
+            <!--            <img src="/assets/Sports-Events.png" alt="logo">-->
+            <h1>Sport Events</h1>
+        </a>
+        <div class="navbar-header" style="display: flex; width: 100%">
+
+            <button type="button" class="navbar-toggle collapsed " data-toggle="collapse"
+                    data-target="#navbar">
+
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left" style="display: block;color: honeydew;padding: 10px">
+                <li>
+                    <form th:action="@{/api/sportEvent/getList}" method="get" th:object="${sportEvent}">
+                        <button id="all" class="btn bg-transparent btn-default myBtn" type="submit"
+                                style="border-radius: 20px;color: honeydew;padding: 10px; font-size: small">
+                            <i class="fa fa-list"></i>&emsp; Прикажи ги сите спортски
+                            настани
+                        </button>
+                    </form>
+                </li>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="active">
+                        &emsp;&emsp;&emsp;
+                        <button id="newSportEvent" class=" btn bg-transparent btn-default myBtn" type="button"
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                                style="border-radius: 20px;color: honeydew;padding: 10px; font-size: small">
+                            <i class="fa fa-plus-circle"></i> &emsp; Додади нов спортски настан
+                        </button>
+                    </li>
+                </th:block>
+
+                <th:block sec:authorize="hasRole('ROLE_USER')">
+                    <li class="active">
+                        <form th:action="@{/api/sportEvent/getHearts}" method="get" th:object="${sportEvent}">
+                            <input type="text" th:value="${user.getUsername()}" style="display: none" name="username">
+                            <button id="hearts" class="btn bg-transparent btn-default myBtn" type="submit"
+                                    style="border-radius: 20px;color: honeydew;padding: 10px; font-size: small">
+                                <i class="fa fa-heart"></i>&emsp; Прикажи зачувани настани
+                            </button>
+                        </form>
+                    </li>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="dropdown" style="display: block;float: right;padding-right: 40px;margin-top: -70px;">
+    <th:block sec:authorize="isAuthenticated()">
+        <button class="btn bg-transparent dropdown-toggle myBtn" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style="border-radius: 20px;color: honeydew;padding: 10px; font-size: small"
+        ><span th:text="${user.getFullName()}"></span>
+
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <form th:action="@{/logout}" method="post">
+                <button class="btn bg-transparent btn-default dropdown-item" type="submit"
+                        style="border-radius: 20px;float: right; font-size: small">Log Out
+                </button>
+            </form>
+        </div>
+    </th:block>
+
+    <th:block sec:authorize="!isAuthenticated()">
+        <form th:action="@{/login}" method="post">
+            <button class="btn bg-transparent btn-default" type="submit" id="signInBtn"
+                    style="border-radius: 20px;color: honeydew; font-size: small">Sign In
+            </button>
+        </form>
+    </th:block>
+
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Додади нов спортски настан</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/api/sportEvent/create}" method="post" th:object="${sportEvent}" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="name">Име на настан: </label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="sportType">Тип на настан: </label>
+                        <select name="sportType" id="sportType" required class="form-control">
+                            <option value=""></option>
+                            <option th:each="type : ${types}" th:text="${type.name}"
+                                    th:value="${type.value}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="status">Статус: </label>
+                        <p style="font-size: small; font-weight: bold" id="stat"></p>
+                        <input type="text" name="status" id="status" required class="form-control"
+                               style="display: none"/>
+                        <!--                            <span th:each="status : ${statuses}" th:text="${status.name}"-->
+                        <!--                                    th:value="${status.value}"></span>-->
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="startDate">Датум на почеток на настан: </label>
+                        <input type="date" id="startDate" name="startDate" required class="form-control">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="endDate">Датум на крај на настан: </label>
+                        <input type="date" id="endDate" name="endDate" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div style="display: none;color: red" id="e_arrDate"></div>
+                </div>
+                <div class="form-group">
+                    <label for="location">Место на одржување на настанот: </label>
+                    <input type="text" id="location" name="location" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="description">Опис: </label>
+                    <input type="text" size="20px" id="description" name="description" class="form-control">
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-default" id="create" type="submit">Внеси спортски настан
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!--todo body-->
+<div class="container-fluid d-flex flex-column flex-md-row">
+    <div class="col-12 col-md-3 leftcolumn">
+        <div>
+            <form th:action="@{/api/sportEvent/sort}" method="get" th:object="${sportEvent}"
+                  style="text-align: left;">
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <label for="nameSort">Пребарај по име: </label>
+                        <input type="text" id="nameSort" class="form-control" name="name"
+                               th:value="${param.name}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <!--                            <label for="nameFilter">Сортирај: </label><br>-->
+                        <label for="nameFilter"></br></br></br></label>
+                        <input type="checkbox" checked data-toggle="toggle" id="nameFilter" class="form-control"
+                               data-onstyle="info" data-size="mini" name="sort" data-on="A-Z" data-off="Z-A"
+                               th:checked="${param.sort}" value="true">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="statusFilter">Статус: &nbsp;</label>
+                        <select name="status" id="statusFilter" class="form-control">
+                            <option value=""></option>
+                            <option th:each="status : ${statuses}" th:text="${status.name}"
+                                    th:selected="${#strings.equals(#request.getParameter('status'), status.value)}"
+                                    th:value="${status.value}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="sportTypeFilter">Тип на настан: </label>
+                        <select name="sportType" id="sportTypeFilter" class="form-control">
+                            <option value=""></option>
+                            <option th:each="type : ${types}" th:text="${type.name}"
+                                    th:selected="${#strings.equals(#request.getParameter('sportType'), type.value)}"
+
+                                    th:value="${type.value}"></option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="start">Од: &nbsp;</label>
+                        <input type="date" id="start" name="start" class="form-control"
+                               th:value="${param.start}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="end">До: &nbsp;</label>
+                        <input type="date" id="end" name="end" class="form-control" th:value="${param.end}">
+                    </div>
+
+                </div>
+                <div class="form-row justify-content-end"> <!-- style="border-top: rgba(52,58,64,0.26) solid 1px;" -->
+                    <div class="form-group col-md-3">
+                        <label for="filter">&nbsp;</label>
+                        <input type="submit" value="Филтрирај" class="form-control btn-info" id="filter">
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="col-12 col-md-9 rightcolumn">
+        <div class="card col-12 col-md-11 " th:each="event : ${events}">
+            <div class="d-flex ">
+                <div class="form-group col-md-9" style="margin-left: -15px">
+                    <h3>
+                        <a th:text="${event.name}" th:href="@{/api/sportEvent/view/{id}(id=${event.getId()})}"
+                           id="cardName">naslov</a>
+                    </h3>
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <p style="font-size: medium; color: #d38d17">
+                            Total likes:
+                            <span th:text="${event.totalLikes}"/>
+                        </p>
+                    </th:block>
+                </div>
+                <div class="form-group col-md-3 " style="margin-left: 25px">
+                    <div class="form-row justify-content-end">
+                        <div class="form-group ">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <td>
+                                    <button class="btn btn-default btn-outline-info justify-content-end" type="button"
+                                            data-toggle="modal" style="font-size: small"
+                                            data-target="#editModal"><i class="fa fa-edit"></i></button>
+                                </td>
+                            </th:block>
+                        </div>
+                        <div class="form-group">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <button class="btn btn-default btn-outline-danger"
+                                        style="font-size: small; margin-left: 10px"
+                                        data-toggle="modal" type="button" data-target="#deleteModal"><i
+                                        class="fa fa-trash"></i>
+                                </button>
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="deleteModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered " role="document">
+                                        <div class="modal-content" style="border-radius: 20px">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="deleteModalLabel">Избриши <span
+                                                        th:text="${event.getName()}"></span>?</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form th:action="@{/api/sportEvent/delete}" method="post" style="padding: 20px">
+                                                <input type="text" th:value="${event.id}" style="display: none"
+                                                       name="id">
+                                                <h5>Дали сте сигурни дека сакате да го избришете спортскиот настан <span
+                                                        th:text="${event.getName()}"></span>?</h5>
+                                                <div class="modal-footer " style="padding-right: 0">
+
+                                                <button class="btn btn-default btn-outline-danger"
+                                                        style="font-size: small; margin-left: 10px; border-radius: 16px;padding: 7px;"
+                                                        type="submit"><i class="fa fa-trash"></i> Избриши настан
+                                                </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                        <div class="form-group ">
+                            <th:block sec:authorize="hasRole('ROLE_USER')">
+                                <!--                                <td th:switch="${event.saved}">-->
+                                <form method="post" th:action="@{/api/sportEvent/removeHeart}"
+                                      th:if="${user.getLikedSportEvents().contains(event)}"> <!--th:case="true" -->
+                                    <input type="text" th:value="${event.id}" style="display: none" name="id">
+                                    <input type="text" th:value="${user.getUsername()}" style="display: none"
+                                           name="username">
+                                    <input type="text" value="list" style="display: none" name="where">
+                                    <button class="btn btn-default btn-danger" type="submit"
+                                    ><i class="fa-solid fa-basketball"><span th:text="${event.totalLikes}"
+                                                                             style="font-size: small;margin-left: 10px"></span></i>
+                                    </button>
+                                </form>
+                                <form method="post" th:action="@{/api/sportEvent/heart}"
+                                      th:unless="${user.getLikedSportEvents().contains(event)}"> <!--th:case="false"-->
+                                    <input type="text" th:value="${event.id}" style="display: none" name="id">
+                                    <input type="text" th:value="${user.getUsername()}" style="display: none"
+                                           name="username">
+                                    <input type="text" value="list" style="display: none" name="where">
+                                    <button class="btn btn-default btn-outline-danger" type="submit"
+                                    ><i class="fa-solid fa-basketball"><span th:text="${event.totalLikes}"
+                                                                             style="font-size: small;margin-left: 10px"></span></i>
+                                    </button>
+                                </form>
+                                <!--                                </td>-->
+
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <p style="font-size: 15px"> Спорт: <span class="card-text" th:text="${event.sportType}"></span></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <h4 class="card-subtitle mb-2 text-muted " style="text-align: end">
+                        <span th:if="${event.status.equals(event.getStatus().COMPLETED)}"
+                              th:text="${event.status}" style="color: red"></span>
+                        <span th:if="${event.status.equals(event.getStatus().ACTIVE)}" th:text="${event.status}"
+                              style="color: green"></span>
+                        <span th:if="${event.status.equals(event.getStatus().INCOMPLETE)}"
+                              th:text="${event.status}" style="color: orange"></span>
+                        <span th:if="${event.status.equals(event.getStatus().NOT_STARTED)}"
+                              th:text="${event.status}" style="color: purple"></span>
+                    </h4>
+                </div>
+            </div>
+            <p class="card-text" style="font-size: 15px">
+                <span th:text="${#temporals.format(event.getStartDate(), 'dd.MM.yyyy')}"></span> -
+                <span th:text="${#temporals.format(event.getEndDate(), 'dd.MM.yyyy')}"></span> ,
+                <span th:text="${event.location}"></span>
+            </p>
+            <p class="card-text" style="font-size: 12px" th:text="${event.description}"></p>
+            <p>
+
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                 aria-labelledby="editModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered " role="document">
+                    <div class="modal-content" style="border-radius: 20px">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Уреди спортски настан</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/api/sportEvent/create}" method="post" style="padding: 20px 20px 0;">
+                            <input type="text" th:value="${event.id}" style="display: none" name="id">
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label for="name">Име на настан: </label>
+                                    <input type="text" class="form-control" id="name1" name="name"
+                                           th:value="${event.name}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="sportType">Тип на настан: </label>
+                                    <select name="sportType" id="sportType1" required
+                                            class="form-control">
+                                        <option th:each="type : ${types}" th:text="${type.name}"
+                                                th:value="${type.value}"
+                                                th:selected="${event.sportType==type.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="status">Статус: </label>
+                                    <select name="status" id="status1" required class="form-control">
+                                        <option th:each="status : ${statuses}" th:text="${status.name}"
+                                                th:value="${status.value}"
+                                                th:selected="${event.status==status.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="startDate">Датум на почеток на настан: </label>
+                                    <input type="date" id="startDate1" name="startDate" required
+                                           class="form-control" th:value="${event.startDate}">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="endDate">Датум на крај на настан: </label>
+                                    <input type="date" id="endDate1" name="endDate" class="form-control"
+                                           th:value="${event.endDate}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Место на одржување на настанот: </label>
+                                <input type="text" id="location1" name="location" class="form-control"
+                                       th:value="${event.location}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Опис: </label>
+                                <textarea style="overflow: auto;min-height: 80px;" id="description1" name="description"
+                                          class="form-control"
+                                          th:text="${event.description}"></textarea>
+                            </div>
+                            <div class="modal-footer " style="padding-right: 0">
+                                <button class="btn btn-outline-info btn-default" type="submit"
+                                        style="border-radius: 20px;font-size: small;padding: 7px">Зачувај спортски
+                                    настан
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <h5>WEBS Sport Event проект© 2023, Михаела Лазетиќ 32/2017</h5>
+</div>
+
+<script>
+    $(document).ready(function () {
+        <!--        let savedText = $(".saved").getText();-->
+        <!--        if (savedText === "false" || savedText === false) {-->
+        <!--            $("#heart").addClass("fa fa-heart-o");-->
+        <!--            $("#heart").removeClass("fa fa-heart");-->
+        <!--        } else if (savedText === "true" || savedText === true) {-->
+        <!--            $("#heart").addClass("fa fa-heart");-->
+        <!--            $("#heart").removeClass("fa fa-heart-o");-->
+        <!--        }-->
+
+        let status = $("#status");
+        let stat = $("#stat");
+        let startDate = $("#startDate");
+        let endDate = $("#endDate");
+        const date = new Date();
+
+        let currentDay = String(date.getDate()).padStart(2, '0');
+
+        let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+
+        let currentYear = date.getFullYear();
+        let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+        let err = $("#e_arrDate");
+        startDate.change(function () {
+            console.log(endDate.val());
+            err.css("display", "none");
+            if (endDate.val() != null || endDate.val() !== "") {
+                if (endDate.val() < startDate.val()) {
+                    err.css("display", "block");
+                    err.text("Start date can't be larger than end date!");
+                }
+            }
+            if (startDate.val() > currentDate) {
+                status.val("NOT_STARTED");
+                stat.text("Не започнато");
+                stat.css("color", "purple");
+            } else if (startDate.val() <= currentDate && currentDate <= endDate.val()) {
+                status.val("ACTIVE");
+                stat.text("Во тек");
+                stat.css("color", "green");
+            }
+        });
+        endDate.change(function () {
+            err.css("display", "none");
+            if (startDate.val() != null || startDate.val() !== "") {
+                if (endDate.val() < startDate.val()) {
+                    err.css("display", "block");
+                    err.text("End date can't be smaller than start date!");
+                }
+            }
+            if (startDate.val() != null)
+                if (startDate.val() <= currentDate && currentDate <= endDate.val()) {
+                    stat.text("Во тек");
+                    status.val("ACTIVE");
+                    stat.css("color", "green");
+                } else if (endDate.val() < currentDate) {
+                    status.val("COMPLETED");
+                    stat.text("Завршен");
+                    stat.css("color", "red");
+                }
+        });
+
+    });
+</script>
+</body>
+</html>

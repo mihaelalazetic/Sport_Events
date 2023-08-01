@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.webs_32_2017.com/soap"
+           targetNamespace="http://www.webs_32_2017.com/soap" elementFormDefault="qualified">
+    <xs:element name="getAllSportEventsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAllSportEventsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sportEvents" type="tns:sportEvents"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getSportEventsByStatusRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="tns:status"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getSportEventsByStatusResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sportEvents" type="tns:sportEvents"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getSportEventsByNameRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getSportEventsByNameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sportEvents" type="tns:sportEvents"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addSportEventRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sportEventDTO" type="tns:sportEventDTO"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addSportEventResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="removeSportEventByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removeSportEventByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getByLocationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="location" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getByLocationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sportEvents" type="tns:sportEvents"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="sportEvent">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="sportType" type="tns:sportType"/>
+            <xs:element name="status" type="tns:status"/>
+            <xs:element name="startDate" type="xs:string"/>
+            <xs:element name="endDate" type="xs:string"/>
+            <xs:element name="location" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="totalLikes" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="sportEventDTO">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="sportType" type="tns:sportType"/>
+            <xs:element name="status" type="tns:status"/>
+            <xs:element name="startDate" type="xs:string"/>
+            <xs:element name="endDate" type="xs:string"/>
+            <xs:element name="location" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="sportType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BASKETBALL"/>
+            <xs:enumeration value="MULTI_SPORT"/>
+            <xs:enumeration value="RUGBY"/>
+            <xs:enumeration value="SOCCER"/>
+            <xs:enumeration value="TENNIS"/>
+            <xs:enumeration value="VOLLEYBALL"/>
+            <xs:enumeration value="HANDBALL"/>
+            <xs:enumeration value="SKIING"/>
+            <xs:enumeration value="BASEBALL"/>
+            <xs:enumeration value="BOXING"/>
+            <xs:enumeration value="HOCKEY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="status">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="COMPLETED"/>
+            <xs:enumeration value="INCOMPLETE"/>
+            <xs:enumeration value="ACTIVE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="sportEvents">
+        <xs:sequence>
+            <xs:element name="sportEvent" type="tns:sportEvent" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
